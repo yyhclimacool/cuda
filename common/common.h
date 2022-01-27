@@ -10,3 +10,9 @@
       LOG(FATAL) << "call " #call " failed, code[" << error << "], errmsg[" << cudaGetErrorString(error) << "]"; \
     }                                                                                                            \
   }
+
+inline double timestamp() {
+  struct timeval tv;
+  gettimeofday(&tv, NULL);
+  return tv.tv_sec * 1000 + static_cast<double>(tv.tv_usec * 1e-3);
+}
