@@ -28,7 +28,7 @@ inline double currentMs() {
 
 void checkResult(float *hostArray, float *gpuArray, const size_t n) {
   const float epsilon = 1e-6f;
-  bool            allMatch = true;
+  bool        allMatch = true;
   for (size_t i = 0; i < n; ++i) {
     if (fabs(hostArray[i] - gpuArray[i]) > epsilon) {
       allMatch = false;
@@ -110,9 +110,14 @@ int main(int argc, char **argv) {
   cudaMemcpy(db, hb, nbytes, cudaMemcpyHostToDevice);
 
   // invoke kernel at host side
-  int  len = 512;
-  dim3 block(len); // TODO: What does this mean ?
+  // 手动定义的dim3类型的网格和块变量仅在主机端可见，而unit3类型的内置预初始化的网格和块变量仅在设备端可见。
+  int len = 512;
+  // Q: What does this mean ?
+  // A: blockIdx.x=512, blockIdx.y=1, blockIdx.z=1, y and z are ignored
+  // x is the number of threads in the block
+  dim3 block(len);
   dim3 grid((N + block.x - 1) / block.x);
+
   start = currentMs();
   sumArraysOnGPU<<<grid, block>>>(da, db, dc, N);
   cudaDeviceSynchronize();
