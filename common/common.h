@@ -1,7 +1,10 @@
 #pragma once
 
+#include <cassert>
 #include <glog/logging.h>
+#include <sys/select.h>
 #include <sys/time.h>
+#include <time.h>
 
 #define CHECK_CUDA(call)                                                       \
   {                                                                            \
@@ -12,13 +15,32 @@
     }                                                                          \
   }
 
-inline int64_t timestamp() {
-  struct timeval tv;
-  gettimeofday(&tv, NULL);
-  return tv.tv_sec * 1000 * 1000 + tv.tv_usec;
-}
+class Timer {
+public:
+  Timer() { start_ts = get_current_ts(); }
+  void start() { start_ts = get_current_ts(); }
+  void stop() { stop_ts = get_current_ts(); }
+  int64_t elapsed_us() {
+    assert(start_ts != 0);
+    if (stop_ts == 0) {
+      stop();
+    }
+    assert(stop_ts >= start_ts);
+    return stop_ts - start_ts;
+  }
 
-void get_device_info(int devid) {
+private:
+  int64_t get_current_ts() {
+    timeval tval;
+    gettimeofday(&tval, NULL);
+    return tval.tv_sec * 1000 * 1000 + tval.tv_usec;
+  }
+  timeval val;
+  int64_t start_ts = 0;
+  int64_t stop_ts = 0;
+};
+
+inline void get_device_info(int devid) {
   cudaDeviceProp deviceProp{};
   CHECK_CUDA(cudaGetDeviceProperties(&deviceProp, devid));
   LOG(INFO) << "Using device_no[" << devid << "]\n\tname[" << deviceProp.name
