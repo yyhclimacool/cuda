@@ -1,0 +1,276 @@
+{
+    "[cpp]": {
+      "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd"
+    },
+    "[dockerfile]": {
+      "editor.defaultFormatter": "ms-azuretools.vscode-docker"
+    },
+    "[go]": {
+      "editor.formatOnSaveMode": "modifications"
+    },
+    "[python]": {
+      "editor.defaultFormatter": "charliermarsh.ruff",
+      "editor.formatOnType": true
+    },
+    "[shellscript]": {
+      "editor.defaultFormatter": "foxundermoon.shell-format"
+    },
+    "accessibility.signals.terminalBell": {
+      "sound": "on"
+    },
+    "bashIde.shfmt.simplifyCode": true,
+    "better-comments.highlightPlainText": true,
+    "better-comments.tags": [
+      {
+        "backgroundColor": "transparent",
+        "bold": false,
+        "color": "#FF2D00",
+        "italic": false,
+        "strikethrough": false,
+        "tag": "!",
+        "underline": false
+      },
+      {
+        "backgroundColor": "transparent",
+        "bold": false,
+        "color": "#3498DB",
+        "italic": false,
+        "strikethrough": false,
+        "tag": "?",
+        "underline": false
+      },
+      {
+        "backgroundColor": "transparent",
+        "bold": false,
+        "color": "#474747",
+        "italic": false,
+        "strikethrough": true,
+        "tag": "//",
+        "underline": false
+      },
+      {
+        "backgroundColor": "transparent",
+        "bold": false,
+        "color": "#FF8C00",
+        "italic": false,
+        "strikethrough": false,
+        "tag": "todo",
+        "underline": false
+      },
+      {
+        "backgroundColor": "transparent",
+        "bold": false,
+        "color": "#98C379",
+        "italic": false,
+        "strikethrough": false,
+        "tag": "*",
+        "underline": false
+      }
+    ],
+    "C_Cpp.clang_format_fallbackStyle": "{   AccessModifierOffset: -2,   AlignAfterOpenBracket: true,   AlignConsecutiveDeclarations: true,   AlignOperands: true,   AlignTrailingComments: true,   AllowAllParametersOfDeclarationOnNextLine: true,   AllowShortFunctionsOnASingleLine: true,   AllowShortIfStatementsOnASingleLine: true,   AlwaysBreakAfterDefinitionReturnType: None,   AlwaysBreakAfterReturnType : None,   BasedOnStyle: Google,   BreakBeforeBraces: Attach,   BreakConstructorInitializersBeforeComma: true,   ColumnLimit: 180,   ContinuationIndentWidth: 2,   FixNamespaceComments: true,   IndentWidth: 2,   MaxEmptyLinesToKeep: 1,   NamespaceIndentation: All,   PenaltyReturnTypeOnItsOwnLine: 60,   PointerAlignment: Right,   SortIncludes: true,   SpaceAfterCStyleCast: false,   SpaceBeforeAssignmentOperators: true,   SpacesBeforeTrailingComments: 1,   SpacesInContainerLiterals: true,   SpacesInSquareBrackets: false,   TabWidth: 2,   UseTab: Never, NamespaceIndentation: None, EmptyLineBeforeAccessModifier: LogicalBlock, SpaceBeforeCtorInitializerColon: true, ConstructorInitializerAllOnOneLineOrOnePerLine: false, BreakConstructorInitializers: BeforeColon, AllowAllArgumentsOnNextLine: true  }",
+    "C_Cpp.clang_format_sortIncludes": true,
+    "C_Cpp.default.compileCommands": "${workspaceFolder}/compile_commands.json",
+    // C++ 配置
+    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+    "C_Cpp.default.cppStandard": "c++20",
+    "C_Cpp.default.intelliSenseMode": "linux-gcc-x64",
+    "C_Cpp.formatting": "clangFormat",
+    "C_Cpp.intelliSenseEngine": "disabled",
+    "C_Cpp.vcFormat.indent.preserveComments": true,
+    "C_Cpp.vcFormat.space.betweenEmptyLambdaBrackets": true,
+    "clang-format.fallbackStyle": "Google",
+    "clangd.arguments": [
+      "--background-index",
+      "--compile-commands-dir=cmake_build",
+      "-j=12",
+      "--query-driver=/usr/bin/clang++",
+      "--clang-tidy",
+      "--all-scopes-completion",
+      "--completion-style=detailed",
+      "--function-arg-placeholders",
+      "--header-insertion=iwyu",
+      "--pch-storage=disk",
+      "--cross-file-rename",
+      "--suggest-missing-includes"
+    ],
+    "clangd.checkUpdates": true,
+    "cmake.buildDirectory": "${workspaceFolder}/build",
+    "cmake.cmakePath": "/opt/homebrew/bin/cmake",
+    "cmake.configureOnOpen": false,
+    "cmake.ctestPath": "/opt/homebrew/bin/ctest",
+    // CMake 预设
+    "cmake.defaultBuildPreset": "release",
+    "cmake.generator": "Unix Makefiles",
+    "cmake.languageSupport.enableFileAPI": true,
+    "cmake.showOptionsMovedNotification": false,
+    // CMake 配置
+    "cmake.sourceDirectory": "${workspaceFolder}",
+    "diffEditor.maxComputationTime": 0,
+    "diffEditor.maxFileSize": 500,
+    "diffEditor.wordWrap": "on",
+    "docomment.activateOnEnter": true,
+    "editor.bracketPairColorization.enabled": true,
+    "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll": "explicit",
+      "source.organizeImports": "explicit"
+    },
+    "editor.cursorBlinking": "smooth",
+    "editor.cursorSmoothCaretAnimation": "on",
+    "editor.cursorSurroundingLines": 10,
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.dragAndDrop": false,
+    "editor.foldingMaximumRegions": 65000,
+    "editor.formatOnSave": true,
+    "editor.guides.bracketPairs": true,
+    "editor.guides.bracketPairsHorizontal": true,
+    "editor.inlineSuggest.enabled": true,
+    "editor.largeFileOptimizations": false,
+    "editor.semanticTokenColorCustomizations": {
+      "enabled": true,
+      "rules": {
+        "*.fileScope": {
+          "fontStyle": "bold",
+          "foreground": "#8f5daf"
+        },
+        "*.readonly": {
+          "fontStyle": "bold"
+        },
+        "class": {
+          "fontStyle": "bold",
+          "foreground": "#729de3"
+        },
+        "comment": "#505050",
+        "enum": {
+          "fontStyle": "bold",
+          "foreground": "#729de3"
+        },
+        "enumMember": "#397797",
+        "function": {
+          "foreground": "#e5b124"
+        },
+        "macro": {
+          "fontStyle": "bold",
+          "foreground": "#8f5daf"
+        },
+        "method": {
+          "fontStyle": "underline",
+          "foreground": "#e5b124"
+        },
+        "namespace": {
+          "fontStyle": "bold",
+          "foreground": "#00d780"
+        },
+        "parameter": "#306b72",
+        "property": {
+          "fontStyle": "underline",
+          "foreground": "#7ca6b7"
+        },
+        "type": {
+          "fontStyle": "bold",
+          "foreground": "#729de3"
+        },
+        "type.fileScope": {
+          "fontStyle": "bold",
+          "foreground": "#729de3"
+        },
+        "typeParameter": {
+          "fontStyle": "italic bold",
+          "foreground": "#729de3"
+        },
+        "variable": "#26cdca",
+        "variable.static": {
+          "fontStyle": "bold",
+          "foreground": "#8f5daf"
+        }
+      }
+    },
+    "editor.tabSize": 2,
+    "editor.unicodeHighlight.ambiguousCharacters": false,
+    "editor.unicodeHighlight.nonBasicASCII": false,
+    "editor.wordWrap": "on",
+    "editor.wrappingIndent": "none",
+    "explorer.confirmDelete": false,
+    "explorer.confirmDragAndDrop": false,
+    "extensions.ignoreRecommendations": true,
+    "extensions.supportUntrustedWorkspaces": {},
+    // 文件关联
+    "files.associations": {
+      "*.bazel": "starlark",
+      "*.bzl": "starlark",
+      "BUILD": "starlark",
+      "WORKSPACE": "starlark"
+    },
+    "files.autoSave": "afterDelay",
+    // 文件排除
+    "files.exclude": {
+      "**/__pycache__": true,
+      "**/.git": true,
+      "**/*.pyc": true,
+      "**/bazel-*": true,
+      "**/build": false
+    },
+    "files.watcherExclude": {
+      "**/.blade_tools/**": true,
+      "**/.bundle/**": true,
+      "**/.codebase/**": true,
+      "**/.git/**": true,
+      "**/lib/**": true,
+      "**/output/**": true
+    },
+    "github.copilot.nextEditSuggestions.enabled": true,
+    "github.copilot.nextEditSuggestions.fixes": true,
+    "github.copilot.selectedCompletionModel": "GPT-5",
+    "gitlens.ai.model": "vscode",
+    "gitlens.ai.vscode.model": "copilot:gpt-4.1",
+    "gitlens.graph.onlyFollowFirstParent": true,
+    "go.toolsManagement.autoUpdate": true,
+    "json.maxItemsComputed": 500000000000,
+    "leetcode.defaultLanguage": "cpp",
+    "leetcode.endpoint": "leetcode-cn",
+    "leetcode.hint.commandShortcut": false,
+    "leetcode.hint.commentDescription": false,
+    "leetcode.hint.configWebviewMarkdown": false,
+    "leetcode.workspaceFolder": "/Users/aerobooxt/.leetcode",
+    "notebook.defaultFormatter": "charliermarsh.ruff",
+    "notebook.formatOnSave.enabled": true,
+    "prettier.insertPragma": true,
+    "python.analysis.typeCheckingMode": "standard",
+    "python.formatting.provider": "black",
+    "redhat.telemetry.enabled": false,
+    "remote.SSH.defaultExtensions": [],
+    "remote.SSH.remotePlatform": {
+      "decade": "linux"
+    },
+    // 搜索排除
+    "search.exclude": {
+      "**/__pycache__": true,
+      "**/bazel-*": true,
+      "**/build": false,
+      "**/node_modules": true
+    },
+    "security.workspace.trust.untrustedFiles": "open",
+    "settingsSync.ignoredSettings": [
+      "-python.condaPath"
+    ],
+    "tabnine.experimentalAutoImports": true,
+    "terminal.integrated.copyOnSelection": true,
+    "terminal.integrated.cursorBlinking": true,
+    "terminal.integrated.defaultProfile.linux": "bash",
+    "terminal.integrated.enableMultiLinePasteWarning": false,
+    "terminal.integrated.enableVisualBell": true,
+    "terminal.integrated.inheritEnv": false,
+    "terminal.integrated.scrollback": 10000,
+    "vsicons.dontShowNewVersionMessage": true,
+    "window.commandCenter": true,
+    "window.newWindowProfile": "默认",
+    "workbench.colorTheme": "GitHub Light",
+    "workbench.editor.empty.hint": "hidden",
+    "workbench.editor.enablePreview": false,
+    "workbench.iconTheme": "a-file-icon-vscode",
+    "workbench.productIconTheme": "a-file-icon-vscode-product-icon-theme",
+    "workbench.startupEditor": "none",
+    "yaml.maxItemsComputed": 500000,
+    "cursorpyright.analysis.typeCheckingMode": "standard",
+    "specstory.cloudSync.enabled": "never"
+  }

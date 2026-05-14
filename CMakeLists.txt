@@ -47,3 +47,5 @@ target_link_libraries(vector_add glog gflags pthread)
 target_link_libraries(print_thread_idx glog gflags pthread)
 install(TARGETS matrix_sum vector_add print_thread_idx
   RUNTIME DESTINATION bin)
+
+add_subdirectory(cuda-cpp)
