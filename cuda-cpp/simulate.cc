@@ -1,45 +1,60 @@
 #include "ach.h"
 
-void simulate(int height, int width, const thrust::universal_vector<float> &in,
-              thrust::universal_vector<float> &out) {
-  const float *in_ptr = thrust::raw_pointer_cast(in.data());
-
-  auto cell_indices = thrust::make_counting_iterator(0);
-  thrust::transform(
-      thrust::device, cell_indices, cell_indices + in.size(), out.begin(),
-      [in_ptr, height, width] __host__ __device__(int id) {
-        int column = id % width;
-        int row = id / width;
-
-        if (row > 0 && column > 0 && row < height - 1 && column < width - 1) {
-          float d2tdx2 = in_ptr[(row)*width + column - 1] -
-                         2 * in_ptr[row * width + column] +
-                         in_ptr[(row)*width + column + 1];
-          float d2tdy2 = in_ptr[(row - 1) * width + column] -
-                         2 * in_ptr[row * width + column] +
-                         in_ptr[(row + 1) * width + column];
-
-          return in_ptr[row * width + column] + 0.2f * (d2tdx2 + d2tdy2);
-        } else {
-          return in_ptr[row * width + column];
-        }
-      });
+void simulate(int width, int height, const thrust::device_vector<float> &in,
+              thrust::device_vector<float> &out) {
+  cuda::std::mdspan temp_in(thrust::raw_pointer_cast(in.data()), height, width);
+  cub::DeviceTransform::Transform(
+      in.begin(), out.begin(), out.size(),
+      [=] __host__ __device__(int id) { return ach::compute(id, temp_in); });
 }
 
 int main() {
-  int height = 64, width = 128;
-  auto in = heat::generate_random_data(height, width);
-  auto out = in;
-  for (int step = 0; step < 100; step++) {
-    simulate(height, width, in, out);
-    thrust::swap(in, out);
+  int height = 2048;
+  int width = 8192;
 
-    char filename[64];
-    std::snprintf(filename, sizeof(filename), "/tmp/heat_%d.bin", step);
-    FILE *f = std::fopen(filename, "wb");
-    std::fwrite(&height, sizeof(int), 1, f);
-    std::fwrite(&width, sizeof(int), 1, f);
-    std::fwrite(thrust::raw_pointer_cast(in.data()), sizeof(float), height * width, f);
-    std::fclose(f);
+  thrust::device_vector<float> d_prev = ach::init(height, width);
+  thrust::device_vector<float> d_next(height * width);
+  thrust::host_vector<float> h_prev(height * width);
+
+  const int compute_steps = 500;
+  const int write_steps = 3;
+
+  /* Executing write_steps iterations of
+   *  1. Device to Host copy of prev
+   *  2. Simulate next on the device
+   *  3. Write host prev to disk
+   * The goal is to overlap 2. and 3. by using asynchrony
+   */
+  for (int write_step = 0; write_step < write_steps; write_step++) {
+    auto step_begin = std::chrono::high_resolution_clock::now();
+
+    // 1. Copying the device prev buffer of previous step in the host buffer
+    thrust::copy(d_prev.begin(), d_prev.end(), h_prev.begin());
+
+    // 2. Executing compute_step iterations to simulate
+    // We want this step to now run asynchronously on the GPU
+    for (int compute_step = 0; compute_step < compute_steps; compute_step++) {
+      simulate(width, height, d_prev, d_next);
+      d_prev.swap(d_next);
+    }
+
+    cudaDeviceSynchronize();
+
+    auto write_begin = std::chrono::high_resolution_clock::now();
+
+    // 3. Store host prev to disk
+    ach::store(write_step, height, width, h_prev);
+
+    auto write_end = std::chrono::high_resolution_clock::now();
+    auto write_ms =
+        std::chrono::duration<double, std::milli>(write_end - write_begin)
+            .count();
+
+    auto step_end = std::chrono::high_resolution_clock::now();
+    auto step_ms =
+        std::chrono::duration<double, std::milli>(step_end - step_begin)
+            .count();
+    std::printf("compute + write %d in %g ms\n", write_step, step_ms);
+    std::printf("          write %d in %g ms\n", write_step, write_ms);
   }
 }
